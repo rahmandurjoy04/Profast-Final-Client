@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
 import { Link } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import axios from 'axios';
 const Regiser = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const {createUser} = useAuth()
+    const {createUser , updateUserProfile} = useAuth();
+
+    const [profilePic,setProfilePic] = useState('');
+
+    const handleImageUpload =async(e)=>{
+        const image = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image',image);
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`
+        const res =await axios.post(imageUploadUrl,formData);
+        setProfilePic(res.data.data.url);
+    }
 
     const onSubmit = data => {
         createUser(data.email,data.password)
-        .then(res=>(console.log(res.user)))
+        .then(res=>{console.log(res.user);
+            // Update user info in the db
+
+            // Update User Profile in firebase
+            const userProfile  = {
+                displayName: data.name,
+                photoURL : profilePic
+            }
+
+            updateUserProfile(userProfile)
+            .then(()=>{
+                console.log('Profile name & picture updated');
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        })
         .catch(error=>{
             console.error(error)
         })
@@ -20,6 +48,17 @@ const Regiser = () => {
             <h1 className='text-3xl text-center'>Register Now!</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset className="fieldset">
+                    {/* Photo */}
+                    <label className="label"></label>
+                    <input onChange={handleImageUpload} className='input' type="file" placeholder='Upload Profile Picture'/>
+                    {/* Name */}
+                    <label className="label">Name</label>
+                    <input type="text" {...register('name', {
+                        required: true
+                    })} className="input" placeholder="Name" />
+                    {
+                        errors.email?.type === 'required' && <p className='text-xl mt-2 text-red-500'>Name Is Required.</p>
+                    }
                     {/* Email */}
                     <label className="label">Email</label>
                     <input type="email" {...register('email', {

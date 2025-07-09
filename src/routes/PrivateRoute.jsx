@@ -6,7 +6,8 @@ const PrivateRoute = ({ children }) => {
     const { user, authLoading } = useAuth();
 
     // Redirection to the desired location
-    const location = useLocation()
+    const location = useLocation();
+    const from = location.pathname;
 
 
 
@@ -16,7 +17,7 @@ const PrivateRoute = ({ children }) => {
         </div>
     };
     if (!user) {
-        return <Navigate to={'/login'} state={location.pathname}></Navigate>
+        return <Navigate to={'/login'} state={from}></Navigate>
     }
     return (
         children

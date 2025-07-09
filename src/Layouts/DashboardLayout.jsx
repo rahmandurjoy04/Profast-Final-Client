@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import ProFastLogo from '../Pages/Shared/ProFastLogo/ProFastLogo';
+import { FaBoxOpen, FaHome, FaMoneyCheckAlt, FaSearchLocation, FaUserEdit } from 'react-icons/fa';
 
 const DashboardLayout = () => {
     return (
@@ -32,15 +33,35 @@ const DashboardLayout = () => {
                 </div>
                 {/* Page content here */}
                 <Outlet></Outlet>
-                
+
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                     <ProFastLogo></ProFastLogo>
                     {/* Sidebar content here */}
-                    <li><Link to={'/'}>Home</Link></li>
-                    <li><NavLink to={'/dashboard/myParcels'}>My Parcels</NavLink></li>
+                    <li>
+                        <NavLink to={'/'}><FaHome className="inline-block mr-2" />
+                            Home</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/dashboard/myParcels'}>
+                            <FaBoxOpen className="inline-block mr-2" />
+                            My Parcels</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/dashboard/paymentHistory'}>
+                            <FaMoneyCheckAlt className="inline-block mr-2" />
+                            Payment History</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/dashboard/track'}>
+                        <FaSearchLocation className="inline-block mr-2"/> Track A Package</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/dashboard/profile'}>
+                        <FaUserEdit className="inline-block mr-2"/> Update Profile</NavLink>
+                    </li>
                 </ul>
             </div>
         </div >

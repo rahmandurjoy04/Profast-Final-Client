@@ -1,13 +1,27 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import useAuth from '../../../hooks/useAuth';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { signIn } = useAuth();
+
+    const location = useLocation();//getting the location property where we have state
+    const navigate = useNavigate();//Navigation function to desired route
+    const from = location?.state || '/';//Getting the desired state where we want to redirect
+
+
     const onSubmit = (data) => {
-        console.log(data);
+        signIn(data.email,data.password)
+        .then(result=>{
+            console.log(result);
+            navigate(from);
+    })
     }
+
+    
     return (
         <div className=''>
             <h1 className='text-3xl text-center'>Login Now!</h1>
