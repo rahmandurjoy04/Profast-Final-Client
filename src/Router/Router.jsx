@@ -13,6 +13,9 @@ import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import TrackParcel from "../Pages/Dashboard/TrackParcel/TrackParcel";
+import BeARider from "../Pages/Dashboard/BeARider/BeARider";
+import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
+import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +41,13 @@ export const router = createBrowserRouter([
                 </PrivateRoute>,
                 loader: () => fetch('./serviceCenter.json')
             },
+            {
+                path: 'rider',
+                element: <PrivateRoute>
+                    <BeARider></BeARider>
+                </PrivateRoute>
+            },
+
 
         ]
     },
@@ -58,24 +68,32 @@ export const router = createBrowserRouter([
     {
         path: 'dashboard',
         element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-        children:[
+        children: [
             {
-                path:'myParcels',
-                element:<MyParcels></MyParcels>
+                path: 'myParcels',
+                element: <MyParcels></MyParcels>
             },
             {
-                path:'payment/:parcelId',
-                Component:Payment
+                path: 'payment/:parcelId',
+                Component: Payment
             },
             {
-                path:'paymentHistory',
-                Component:PaymentHistory
-            }
-            ,
+                path: 'paymentHistory',
+                Component: PaymentHistory
+            },
             {
-                path:'track',
-                Component:TrackParcel
+                path: 'track',
+                Component: TrackParcel
+            },
+            {
+                path: 'pending-riders',
+                Component: PendingRiders
+            },
+            {
+                path: 'active-riders',
+                Component: ActiveRiders
             }
+
         ]
     }
 ])

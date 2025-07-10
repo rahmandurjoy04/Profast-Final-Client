@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
+import useAxios from '../../../hooks/useAxios';
 
 const SocialLogin = () => {
     const {signInWithGoogle} = useAuth();
@@ -8,11 +9,25 @@ const SocialLogin = () => {
     const location = useLocation();     //getting the location property where we have state
     const navigate = useNavigate();     //Navigation function to desired route
     const from = location?.state || '/';    //Getting the desired state where we want to redirect
+    const axiosInstance = useAxios();
+
+
 
     const handleGoogleSignIn = () =>{
         signInWithGoogle()
-        .then(res=>{
-            console.log(res.user);
+        .then(async(response)=>{
+            const user = response.user;
+            console.log(response.user);
+            // update userinfo in the database
+                const userInfo = {
+                    email: user.email,
+                    role: 'user', // default role
+                    created_at: new Date().toISOString(),
+                    last_log_in: new Date().toISOString()
+                }
+
+                const res =await axiosInstance.post('/users',userInfo);
+                console.log('User Update Info',res.data);
             navigate(from);
         })
         .catch(error=>{
