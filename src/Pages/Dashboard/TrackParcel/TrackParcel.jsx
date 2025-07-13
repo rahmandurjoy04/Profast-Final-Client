@@ -26,7 +26,7 @@ const TrackParcel = () => {
 
   const handleTrackClick = async (trackingId) => {
     try {
-      const res = await axios.get(`http://localhost:3000/trackings/${trackingId}`);
+      const res = await axios.get(`https://pro-fast-server-steel.vercel.app/trackings/${trackingId}`);
       setTrackingData(res.data);
       setSelectedTrackingId(trackingId);
       setModalOpen(true);

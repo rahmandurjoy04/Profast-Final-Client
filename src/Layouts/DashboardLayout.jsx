@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import ProFastLogo from '../Pages/Shared/ProFastLogo/ProFastLogo';
 import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaUserCheck, FaUserClock, FaUserShield, FaMotorcycle, FaTasks, FaCheckCircle, FaWallet } from 'react-icons/fa';
 import useUserRole from '../hooks/useUserRole';
@@ -46,10 +46,10 @@ const DashboardLayout = () => {
                     {/* Sidebar content here */}
                     <ProFastLogo></ProFastLogo>
                     <li>
-                        <NavLink to="/">
+                        <Link to="/dashboard">
                             <FaHome className="inline-block mr-2" />
                             Home
-                        </NavLink>
+                        </Link>
                     </li>
                     <li>
                         <NavLink to="/dashboard/myParcels">
