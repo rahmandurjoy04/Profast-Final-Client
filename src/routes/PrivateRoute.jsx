@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
 
     // Redirection to the desired location
     const location = useLocation();
-    const from = location.pathname;
+    // const from = location.pathname;
 
 
 
@@ -17,7 +17,7 @@ const PrivateRoute = ({ children }) => {
         </div>
     };
     if (!user) {
-        return <Navigate to={'/login'} state={from}></Navigate>
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return (
         children

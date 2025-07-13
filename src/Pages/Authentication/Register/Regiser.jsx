@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
 import useAxios from '../../../hooks/useAxios';
@@ -11,6 +11,10 @@ const Register = () => {
     const { createUser, updateUserProfile } = useAuth();
     const [profilePic, setProfilePic] = useState('');
     const axiosInstance = useAxios();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location?.state?.from?.pathname || '/';
+    console.log(from);
 
     const onSubmit = data => {
 
@@ -38,7 +42,8 @@ const Register = () => {
                 }
                 updateUserProfile(userProfile)
                     .then(() => {
-                        console.log('profile name pic updated')
+                        console.log('profile name pic updated');
+                        navigate(from)
                     })
                     .catch(error => {
                         console.log(error)
@@ -52,7 +57,6 @@ const Register = () => {
 
     const handleImageUpload = async (e) => {
         const image = e.target.files[0];
-        console.log(image)
 
         const formData = new FormData();
         formData.append('image', image);
@@ -78,10 +82,10 @@ const Register = () => {
                             {...register('name', { required: true })}
                             className="input" placeholder="Your Name" />
                         {
-                            errors.email?.type === 'required' && <p className='text-red-500'>Name is required</p>
+                            errors.name?.type === 'required' && <p className='text-red-500'>Name is required</p>
                         }
                         {/* name field */}
-                        <label className="label">Your Name</label>
+                        <label className="label">Your Photo</label>
                         <input type="file"
                             onChange={handleImageUpload}
                             className="input" placeholder="Your Profile picture" />

@@ -10,7 +10,7 @@ const Login = () => {
 
     const location = useLocation();//getting the location property where we have state
     const navigate = useNavigate();//Navigation function to desired route
-    const from = location?.state || '/';//Getting the desired state where we want to redirect
+    const from = location?.state?.from?.pathname || '/';   //Getting the desired state where we want to redirect
 
 
     const onSubmit = (data) => {
@@ -48,7 +48,7 @@ const Login = () => {
                     <button className="btn bg-[#CAEB66] max-w-sm mt-4">Login</button>
                 </fieldset>
             </form>
-            <p className='text-center'><small>Don't Have an Account?<Link className='text-blue-400 btn btn-link' to={'/register'}>Register</Link></small></p>
+            <p className='text-center'><small>Don't Have an Account?<Link className='text-blue-400 btn btn-link' state={{from:location.state?.from}} to={'/register'}>Register</Link></small></p>
             <SocialLogin />
         </div>
     );
